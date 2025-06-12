@@ -67,14 +67,14 @@
     <b><a href="https://arxiv.org/abs/tobedone">SpectralAR: Spectral Autoregressive Visual Generation</a></b>
   <address style="font-size: 110%;">
     <nobr><a href="https://huang-yh.github.io/">Yuanhui Huang</a>,</nobr>
-    <nobr><a href="chen-wl20.github.io">Weiliang Chen</a>,</nobr>
+    <nobr><a href="https://chen-wl20.github.io">Weiliang Chen</a>,</nobr>
     <nobr><a href="https://wzzheng.net/">Wenzhao Zheng</a>,</nobr>
     <nobr><a href="https://scholar.google.com/citations?user=qDseo3cAAAAJ&hl=en">Yueqi Duan</a>,</nobr>
     <nobr><a href="https://scholar.google.com/citations?user=6a79aPwAAAAJ&hl=en">Jie Zhou</a>,</nobr>
     <nobr><a href="http://ivg.au.tsinghua.edu.cn/Jiwen_Lu/">Jiwen Lu</a>
   <br>
-      <nobr>Tsinghua University,</nobr>
-      <nobr>University of California, Berkeley</nobr>
+      <nobr>Tsinghua University</nobr>
+      <!-- <nobr>University of California, Berkeley</nobr> -->
   </address>
    <!-- <div style="font-size: 170%;">CVPR 2023</div> -->
   <address style="font-size: 120%;">
@@ -124,7 +124,7 @@ Since high-frequency components have low magnitude and minimal impact on the vis
 </p>
 
 <p align="center">
-    <img src="images/comparison.png" width="90%">
+    <img src="images/comparison.png" width="60%">
 </p>
 
 
@@ -144,63 +144,21 @@ We further provide some quantitative analysis through a toy experiment in the pa
 
 <h2>Results</h2><hr>
 
-<p>We perform three tasks: 3D semantic occupancy prediction, LiDAR segmentation, and semantic scene completion (SSC). For all tasks, our model only uses RGB images as inputs. </p>
+<p>We train and evaluate our SpectralAR on the large scale ImageNet-1K dataset for both reconstruction and generation.</p>
 
-<h4>3D Semantic Occupancy Prediction</h4><hr>
-
-As dense semantic labels are difficult to obtain, we formulate a practical yet challenging task for vision-based 3D semantic occupancy prediction.
-Under this task, the model is only trained using sparse semantic labels (LiDAR points) but is required to produce a semantic occupancy for all the voxels in the concerned 3D space during testing.
-Our method is the first to demonstrate effective results on this challenging task.
-
-
-<p></p>
+<p align="center">
+  <img src="images/exp_table.png" width="90%">
+</p>
+<p><b>Reconstruction and generation performance on ImageNet-1K.</b> 
+Although the reconstruction performance of SpectralAR is inferior to that of TiTok (SpectralAR has to reconstruct images with different frequency bands while TiTok only reconstructs the complete image),
+the generation FID of SpectralAR is considerably lower than TiTok, demonstrating the importance of causality in autoregressive modeling and the effectiveness of SpectralAR.
+Futhermore, SpectralAR also achieves SOTA performance in generation compared with other methods.
+</p>
 
 <p align="center">
   <img src="images/vis1.png" width="90%">
 </p>
-<b>Visualization results on 3D semantic occupancy prediction and nuScenes LiDAR segmentation.</b> Our method can generate more comprehensive prediction results than the LiDAR segmentation ground truth.
-
-<p> Given the simplicity of our segmentation head, we can adjust the resolution of TPV planes at test time arbitrarily without retraining the network.  </p>
-
-<p></p>
-<p align="center">
-  <img src="images/vis2.png" width="90%">
-</p>
-<b>Arbitrary resolution at test time.</b> We can adjust the prediction resolution through interpolation at test time.
-As resolution increases, more details about the 3D objects are captured.
-
-<p></p>
-<p align="center">
-  <img src="images/vis3.png" width="90%">
-</p>
-<b>Prediction of small and rare objects.</b> We highlight bicycles, motorcycles and pedestrians with red, blue and yellow circles, respectively.
-Note that although some of these objects are barely visible in RGB images, our model still predicts them successfully.
-
-<p></p>
-<h4>LiDAR Segmentation</h4><hr>
-
-<p align="center">
-  <img src="images/lidar_seg.png" width="90%">
-</p>
-<p><b>LiDAR segmentation results on nuScenes test set.</b> 
-Despite critical modal difference, our TPVFormer-Base achieves comparable performance with LiDAR-based methods.
-This is nontrivial since our method needs to reconstruct the complete 3D scene at a high resolution from only 2D image input, while the 3D structural information is readily available in the point clouds for LiDAR-based methods.</p>
-
-<p align="center">
-  <img src="images/nuscenes.png" width="90%">
-</p>
-<p><b>Official camera-only LiDAR segmentation leaderboard on nuScenes.</b> 
-We are the first to demonstrate the potential of vision-based methods on LiDAR segmentation.
-
-
-<h4>Semantic Scene Completion</h4>
-
-<p align="center">
-  <img src="images/ssc.png" width="90%">
-</p>
-<p><b>Semantic scene completion results on SemanticKITTI test set.</b> 
-  TPVFormer outperforms all other methods in both IoU and mIoU, which demonstrates the effectiveness of TPVFormer in occupancy and semantics prediction.</p>
-
+<b>Qualitative visualization results of generated samples.</b>
 
 
 <p>
@@ -208,12 +166,13 @@ We are the first to demonstrate the potential of vision-based methods on LiDAR s
 <h3 class="card-header">Bibtex</h3>
 <div class="card-block">
 <pre class="card-text clickselect">
-@article{huang2023tri,
+<!-- @article{huang2023tri,
     title={Tri-Perspective View for Vision-Based 3D Semantic Occupancy Prediction},
     author={Huang, Yuanhui and Zheng, Wenzhao and Zhang, Yunpeng and Zhou, Jie and Lu, Jiwen},
     journal={arXiv preprint arXiv:2302.07817},
     year={2023}
-}
+} -->
+tobedone
 </pre>
 </div>
 </div>
