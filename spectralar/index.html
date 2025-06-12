@@ -102,47 +102,40 @@
 <p align="center">
     <img src="images/teaser.png" width="90%">
 </p>
-<p><b>Overview of our contributions.</b> 
-  Despite the lack of geometric inputs like LiDAR, our model can accurately identify the 3D positions and sizes of close and distant objects.
-  Particularly, our model even successfully identifies the partially occluded bicycle captured only by two LiDAR points, demonstrating the potential advantage of vision-based 3D semantic occupancy prediction.</p>
+<p><b>Overview of our contributions.</b>
+Autoregressive visual generation has garnered increasing attention due to its scalability and compatibility with other modalities compared with diffusion models.
+Most existing methods construct visual sequences as spatial patches for autoregressive generation.
+However, image patches are inherently parallel, contradicting the causal nature of autoregressive modeling.
+To address this, we propose a Spectral AutoRegressive (SpectralAR) visual generation framework, which realizes causality for visual sequences from the spectral perspective.
+Specifically, we first transform an image into ordered spectral tokens with Nested Spectral Tokenization, representing lower to higher frequency components.
+We then perform autoregressive generation in a coarse-to-fine manner with the sequences of spectral tokens.
+By considering different levels of detail in images, our SpectralAR achieves both sequence causality and token efficiency without bells and whistles.
+We conduct extensive experiments on ImageNet-1K for image reconstruction and autoregressive generation, and SpectralAR achieves 3.02 gFID with only 64 tokens and 310M parameters.
+</p>
 
 
-<!-- <h2>Abstract</h2><hr>
-<p>Modern methods for vision-centric autonomous driving perception widely adopt the bird's-eye-view (BEV) representation to describe a 3D scene.
-  Despite its better efficiency than voxel representation, it has difficulty describing the fine-grained 3D structure of a scene with a single plane.
-  To address this, we propose a tri-perspective view (TPV) representation which accompanies BEV with two additional perpendicular planes.
-  We model each point in the 3D space by summing its projected features on the three planes. 
-  To lift image features to the 3D TPV space, we further propose a transformer-based TPV encoder (TPVFormer) to obtain the TPV features effectively.
-  We employ the attention mechanism to aggregate the image features corresponding to each query in each TPV plane. 
-  Experiments show that our model trained with sparse supervision effectively predicts the semantic occupancy for all voxels.
-  We demonstrate for the first time that using only camera inputs can achieve comparable performance with LiDAR-based methods on the LiDAR segmentation task on nuScenes.</p> -->
-
-
-<h2>Tri-Perspective View (TPV)</h2><hr>
-<p>Modern methods for vision-centric autonomous driving perception widely adopt the bird's-eye-view (BEV) representation to describe a 3D scene.
-  Despite its better efficiency than voxel representation, it has difficulty describing the fine-grained 3D structure of a scene with a single plane.
-  To address this, we propose a tri-perspective view (TPV) representation which accompanies BEV with two additional perpendicular planes. </p>
+<h2>Nested Spectral Tokenization</h2><hr>
+<p>
+Different from the naive 1D tokenization, we aim to represent an image as its spectral decompositions for sequence causality.
+We propose a nested mapping scheme for efficient tokenization by constructing a sequence of sub-images with increasing detail.
+Nested spectral decoding compresses an image into a causal 1D sequence where each token corresponds to a disjoint set of frequencies and achieves token efficiency by reusing previous tokens.
+To further enhance token efficiency, we introduce the non-uniform token-frequency mapping technique.
+Since high-frequency components have low magnitude and minimal impact on the visual quality of images, we can encode them with coarser granularity compared to the low-frequency counterparts.
+</p>
 
 <p align="center">
     <img src="images/comparison.png" width="90%">
 </p>
-<!-- <p><b>Comparisons of TPV with voxel and BEV representation.</b> 
-  While BEV is more efficient than the voxel representation, it discards the height information and cannot comprehensively describe a 3D scene.</p> -->
-
-<p> TPV models each point in the 3D space by summing its projected features on the three planes. </p>
 
 
-<h2>TPVFormer</h2><hr>
-<p> To lift image features to the 3D TPV space, we further propose a transformer-based TPV encoder (TPVFormer) to obtain the TPV features effectively. 
-  Taking camera images as inputs, the proposed TPVFormer only uses sparse LiDAR semantic labels for training but can effectively predict the semantic occupancy for all voxels. <p>
-
-<p align="center">
-     <img src="images/overview.png" width="90%">
-</p>
-
-We employ an image backbone network to extract multi-scale features for multi-camera images. 
-We then perform cross-attention to adaptively lift 2D features to the TPV space and use cross-view hybrid attention to enable the interactions between TPV planes.
-To predict the semantic occupancy of a point in the 3D space, we apply a lightweight prediction head on the sum of projected features on the three TPV planes.
+<h2>Spectral Autoregressive Generation</h2><hr>
+<p>
+we take the spectral tokens from the nested spectral tokenziation as the autoregressive targets.
+Since the spectral tokens are trained in a nested manner to reconstruct sub-images of increasing levels of detail, each spectral token is expected to enhance the quality of the sub-image represented by previous tokens from the spectral domain.
+This progressive refinement process aligns with human visual perception and artistic painting, both of which start with the overall structure and gradually focus on details.
+This similarity qualitatively validates the rationale for performing causal autoregressive generation in the spectral domain.
+We further provide some quantitative analysis through a toy experiment in the paper.
+<p>
 
 <p align="center">
   <img src="images/framework.png" width="90%">
